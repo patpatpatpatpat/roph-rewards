@@ -3,7 +3,7 @@ from random import choice
 
 import robobrowser
 
-from .credentials import PASSWORD, USERNAME
+from credentials import PASSWORD, USERNAME
 
 
 class ROPH(robobrowser.RoboBrowser):
@@ -50,7 +50,7 @@ def daily_logins():
       print('Getting rewards from: %s' % login_event['name'])
 
       if datetime.today() <= login_event['end_date']:
-        roph = ROPH(username, password, login_event['url'])
+        roph = ROPH(USERNAME, PASSWORD, login_event['url'])
       else:
         print('Sorry, the event already expired.')
         continue
@@ -96,7 +96,7 @@ def lets_go_hidden():
     game_conquered = False
 
     while not game_conquered:
-      roph = ROPH(username, password, login_url)
+      roph = ROPH(USERNAME, PASSWORD, login_url)
       roph.open(start_game_url)
       game_over = False
 
