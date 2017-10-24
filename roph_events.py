@@ -7,20 +7,20 @@ from credentials import PASSWORD, USERNAME
 
 
 class ROPH(robobrowser.RoboBrowser):
-  INVALID_LOGIN_CODE = 'please try again'
+    INVALID_LOGIN_CODE = 'please try again'
 
-  def __init__(self, username, password, login_url, *args, **kwargs):
-    super().__init__(parser='html.parser', **kwargs)
+    def __init__(self, username, password, login_url, *args, **kwargs):
+        super().__init__(parser='html.parser', **kwargs)
 
-    self.open(login_url)
-    login_form = self.get_form()
-    login_form['exe_id'] = username
-    login_form['password'] = password
+        self.open(login_url)
+        login_form = self.get_form()
+        login_form['exe_id'] = username
+        login_form['password'] = password
 
-    self.submit_form(login_form)
+        self.submit_form(login_form)
 
-    if self.INVALID_LOGIN_CODE in self.response.text:
-      raise Exception('Invalid credentials.')
+        if self.INVALID_LOGIN_CODE in self.response.text:
+            raise Exception('Invalid credentials.')
 
 
 def daily_logins():
@@ -38,39 +38,41 @@ def daily_logins():
     End: Oct. 31, 2017, 11.59 PM
     """
     daily_login_events = [
-      {'url': 'https://activities.ragnarokonline.com.ph/daily-login',
-       'name': 'Daily Login Oct 2017',
-       'end_date': datetime(2017, 11, 14, 23, 59)},
-      {'url': 'https://activities.ragnarokonline.com.ph/chaos-daily-login',
-       'name': 'Chaos Daily Login',
-       'end_date': datetime(2017, 10, 31, 23, 59)},
+        {'url': 'https://activities.ragnarokonline.com.ph/daily-login',
+         'name': 'Daily Login Oct 2017',
+         'end_date': datetime(2017, 11, 14, 23, 59)},
+        {'url': 'https://activities.ragnarokonline.com.ph/chaos-daily-login',
+            'name': 'Chaos Daily Login',
+            'end_date': datetime(2017, 10, 31, 23, 59)},
     ]
 
     for login_event in daily_login_events:
-      print('Getting rewards from: %s' % login_event['name'])
+        print('Getting rewards from: %s' % login_event['name'])
 
-      if datetime.today() <= login_event['end_date']:
-        roph = ROPH(USERNAME, PASSWORD, login_event['url'])
-      else:
-        print('Sorry, the event already expired.')
-        continue
+        if datetime.today() <= login_event['end_date']:
+            roph = ROPH(USERNAME, PASSWORD, login_event['url'])
+        else:
+            print('Sorry, the event already expired.')
+            continue
 
-      all_page_links = roph.get_links()
+        all_page_links = roph.get_links()
 
-      for link in all_page_links:
-          href = link.attrs.get('href', '')
-          if 'redeem' in href:
-              roph.open(href)  # Simulate clicking of the free item
-              redeem_link = href.replace('redeem', 'send-items')[:111]  # Remove query string from URL
-              roph.open(redeem_link)  # Simulate clicking of the OK button to accept the free item
-              print('Reward claimed!')
+        for link in all_page_links:
+            href = link.attrs.get('href', '')
+            if 'redeem' in href:
+                roph.open(href)  # Simulate clicking of the free item
+                # Remove query string from URL
+                redeem_link = href.replace('redeem', 'send-items')[:111]
+                # Simulate clicking of the OK button to accept the free item
+                roph.open(redeem_link)
+                print('Reward claimed!')
 
-          if 'share' in href:
-              # End of the week reached, simulate sharing page to FB
-              # just use redeem-bonus get arg to skip sharing to fb
-              redeem_link = href.replace('share', 'redeem-bonus')
-              roph.open(redeem_link)
-              print('Bonus reward claimed!')
+            if 'share' in href:
+                # End of the week reached, simulate sharing page to FB
+                # just use redeem-bonus get arg to skip sharing to fb
+                redeem_link = href.replace('share', 'redeem-bonus')
+                roph.open(redeem_link)
+                print('Bonus reward claimed!')
 
 
 def lets_go_hidden():
@@ -96,40 +98,40 @@ def lets_go_hidden():
     game_conquered = False
 
     while not game_conquered:
-      roph = ROPH(USERNAME, PASSWORD, login_url)
-      roph.open(start_game_url)
-      game_over = False
+        roph = ROPH(USERNAME, PASSWORD, login_url)
+        roph.open(start_game_url)
+        game_over = False
 
-      paths_taken = 0
+        paths_taken = 0
 
-      print('Starting new game...')
-      while not game_over:
-        all_paths = [
-          link.attrs.get('href', '') for link in roph.get_links()
-          if 'way' in link.attrs.get('href', '')
-        ]
+        print('Starting new game...')
+        while not game_over:
+            all_paths = [
+                link.attrs.get('href', '') for link in roph.get_links()
+                if 'way' in link.attrs.get('href', '')
+            ]
 
-        if not all_paths and game_already_joined_today in roph.response.text:
-          print('You already played the event today!')
-          game_over = True
-          game_conquered = True
-          continue
-        elif not all_paths:
-          print('Game over!')
-          game_over = True
-          continue
+            if not all_paths and game_already_joined_today in roph.response.text:
+                print('You already played the event today!')
+                game_over = True
+                game_conquered = True
+                continue
+            elif not all_paths:
+                print('Game over!')
+                game_over = True
+                continue
 
-        chosen_path = choice(all_paths)
-        paths_taken += 1
-        print('Selecting path %s' % paths_taken)
-        roph.open(chosen_path)
+            chosen_path = choice(all_paths)
+            paths_taken += 1
+            print('Selecting path %s' % paths_taken)
+            roph.open(chosen_path)
 
-        if dead_text in roph.response.text:
-          print('Killed by Bapho!')
-        elif got_item_text in roph.response.text:
-          print('Item acquired!')
-          game_over = True
-          game_conquered = True
+            if dead_text in roph.response.text:
+                print('Killed by Bapho!')
+            elif got_item_text in roph.response.text:
+                print('Item acquired!')
+                game_over = True
+                game_conquered = True
 
 
 def main():
