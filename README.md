@@ -10,7 +10,7 @@ Get the free items from their website:
 2. `pip install robobrowser==0.5.3`
 
 ## Usage
-1. Open `roph_events.py`, use your `username` and `password` in lines 5 & 6.
+1. Open `credentials.py`, replace `yourusername` and `yourpassword` with your actual ROPH username and password.
 2. Run the program: `python roph_events.py`
 
 ## IMPORTANT NOTE
