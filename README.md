@@ -6,12 +6,19 @@ Get the free items from their website:
  3. Without sharing anything to Facebook
 
 ## Requirements
+### MacOS
 1. Python 3
-2. `pip install robobrowser==0.5.3`
+2. `pip install robobrowser`
+
+### Windows
+1. Download & install any Python 3.x.x here: https://www.python.org/downloads/windows/
+2. When installing Python, be sure to check the "Add Python to the Windows Path" option
+3. Open Windows command prompt, run `pip install robobrowser`
 
 ## Usage
 1. Open `credentials.py`, replace `yourusername` and `yourpassword` with your actual ROPH username and password.
-2. Run the program: `python roph_events.py`
+2. Using the terminal/command prompt, switch to the directory where you downloaded the roph-rewards project.
+3. Run the program: `python roph_events.py`
 
 ## IMPORTANT NOTE
 1. Be sure you are alone when using the scripts, since your username & password are hard-coded in the file.
