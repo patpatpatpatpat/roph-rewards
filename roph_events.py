@@ -3,8 +3,7 @@ from random import choice
 
 import robobrowser
 
-username = 'yourusername'
-password = 'yourpassword'
+from .credentials import PASSWORD, USERNAME
 
 
 class ROPH(robobrowser.RoboBrowser):
