@@ -7,11 +7,11 @@ Get the free items from their website:
 
 ## Requirements
 ### MacOS
-1. Python 3
+1. Python 3.4+
 2. `pip install robobrowser`
 
 ### Windows
-1. Download & install any Python 3.x.x here: https://www.python.org/downloads/windows/
+1. Download & install Python 3.4+ here: https://www.python.org/downloads/windows/
 2. When installing Python, be sure to check the "Add Python to the Windows Path" option
 3. Open Windows command prompt, run `pip install robobrowser`
 
