@@ -30,10 +30,10 @@ Get the free items from their website:
 2. The script won't work if you run it during server maintenance.
 3. I try to create scripts as soon as new events are published. Check this page if new events are released.
 
-## PAST EVENTS
+## Past Events
 1. None
 
-## ROPH Current Events
+## Supported ROPH Events
 1. [Daily Login Rewards - October](https://www.ragnarokonline.com.ph/news/dailylogin-oct2017)
    * Start: October 16th , 2017 (04.00 PM)
    * End: November 14th , 2017 (11.59 PM)
