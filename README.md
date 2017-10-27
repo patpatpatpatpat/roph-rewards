@@ -29,6 +29,7 @@ Get the free items from their website:
 1. Be sure you are alone when using the scripts, since your username & password are hard-coded in the file.
 2. The script won't work if you run it during server maintenance.
 3. I try to create scripts as soon as new events are published. Check this page if new events are released.
+4. Contributions are very welcome! Feel free to open a pull request.
 
 ## Past Events
 1. None
