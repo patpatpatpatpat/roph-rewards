@@ -16,7 +16,7 @@ Get the free items from their website:
 3. Open Windows command prompt, run `pip install robobrowser`
 
 ## Usage
-1. Open `credentials.py`, replace `yourusername` and `yourpassword` with your actual ROPH username and password.
+1. Open `credentials.py`, replace `yourusername` and `yourpassword` with your actual ROPH username and password. Add more dictionaries if you have multiple accounts.
 2. Using the terminal/command prompt, switch to the directory where you downloaded the roph-rewards project.
 3. Run the script: `python roph_events.py`
 

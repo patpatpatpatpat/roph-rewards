@@ -1,11 +1,7 @@
 # Each account username/password combo must be placed inside a dict.
+
 CREDS_LIST = [
-    {
-        'USERNAME': 'myusername1',
-        'PASSWORD': 'mypassword1'
-    },
-    {
-        'USERNAME': 'myusername2',
-        'PASSWORD': 'mypassword2'
-    }
+    {'USERNAME': 'yourusername', 'PASSWORD': 'yourpassword'},
+    # Uncomment next line and add more dictionaries if you have multiple accounts.
+    #{'USERNAME': 'another_username', 'PASSWORD': 'another_password'},
 ]
