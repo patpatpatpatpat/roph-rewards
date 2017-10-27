@@ -3,7 +3,7 @@ from random import choice
 
 import robobrowser
 
-from credentials import PASSWORD, USERNAME
+from credentials import CREDS_LIST
 
 
 class ROPH(robobrowser.RoboBrowser):
@@ -14,6 +14,10 @@ class ROPH(robobrowser.RoboBrowser):
 
         self.open(login_url)
         login_form = self.get_form()
+
+        if not login_form:
+            raise Exception('No form. Probably an ongoing maintenance.')
+
         login_form['exe_id'] = username
         login_form['password'] = password
 
@@ -23,7 +27,7 @@ class ROPH(robobrowser.RoboBrowser):
             raise Exception('Invalid credentials.')
 
 
-def daily_logins():
+def daily_logins(cred):
     """
     News link: https://www.ragnarokonline.com.ph/news/dailylogin-oct2017
     Event link: https://www.ragnarokonline.com.ph/news/dailylogin-oct2017
@@ -50,7 +54,7 @@ def daily_logins():
         print('Getting rewards from: %s' % login_event['name'])
 
         if datetime.today() <= login_event['end_date']:
-            roph = ROPH(USERNAME, PASSWORD, login_event['url'])
+            roph = ROPH(cred['USERNAME'], cred['PASSWORD'], login_event['url'])
         else:
             print('Sorry, the event already expired.')
             continue
@@ -75,7 +79,7 @@ def daily_logins():
                 print('Bonus reward claimed!')
 
 
-def lets_go_hidden():
+def lets_go_hidden(cred):
     """
     News link: https://www.ragnarokonline.com.ph/news/lets-go-hidden
     Event link: https://www.ragnarokonline.com.ph/news/lets-go-hidden
@@ -98,7 +102,7 @@ def lets_go_hidden():
     game_conquered = False
 
     while not game_conquered:
-        roph = ROPH(USERNAME, PASSWORD, login_url)
+        roph = ROPH(cred['USERNAME'], cred['PASSWORD'], login_url)
         roph.open(start_game_url)
         game_over = False
 
@@ -135,8 +139,9 @@ def lets_go_hidden():
 
 
 def main():
-    daily_logins()
-    lets_go_hidden()
+    for cred in CREDS_LIST:
+        daily_logins(cred)
+        lets_go_hidden(cred)
 
 
 if __name__ == "__main__":
