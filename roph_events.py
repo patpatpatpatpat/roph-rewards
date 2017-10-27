@@ -140,6 +140,7 @@ def lets_go_hidden(cred):
 
 def main():
     for cred in CREDS_LIST:
+        print('Getting rewards for user: %s' % cred['USERNAME'])
         daily_logins(cred)
         lets_go_hidden(cred)
 
