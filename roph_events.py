@@ -96,6 +96,7 @@ def play_lets_go_hidden(cred):
     dead_text = 'You can restart the game after'
     got_item_text = 'You got the item'
     game_conquered = False
+    acquired_item_class = '.text-item.text-center'
 
     while not game_conquered:
         roph = ROPH(cred['USERNAME'], cred['PASSWORD'], login_url)
@@ -112,6 +113,11 @@ def play_lets_go_hidden(cred):
             ]
 
             if not all_paths and game_already_joined_today in roph.response.text:
+                acquired_items = roph.select(acquired_item_class)
+                if acquired_items:
+                    acquired_item = acquired_items[0].text
+
+                print('Item acquired: %s' % acquired_item)
                 print('You already played the event today!')
                 game_over = True
                 game_conquered = True
@@ -129,7 +135,11 @@ def play_lets_go_hidden(cred):
             if dead_text in roph.response.text:
                 print('Killed by Bapho!')
             elif got_item_text in roph.response.text:
-                print('Item acquired!')
+                acquired_items = roph.select(acquired_item_class)
+                if acquired_items:
+                    acquired_item = acquired_items[0].text
+
+                print('Item acquired: %s' % acquired_item)
                 game_over = True
                 game_conquered = True
 
