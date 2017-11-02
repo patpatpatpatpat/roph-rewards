@@ -27,27 +27,11 @@ class ROPH(robobrowser.RoboBrowser):
             raise Exception('Invalid credentials.')
 
 
-def daily_logins(cred):
-    """
-    News link: https://www.ragnarokonline.com.ph/news/dailylogin-oct2017
-    Event link: https://www.ragnarokonline.com.ph/news/dailylogin-oct2017
-
-    Start: Oct. 16, 2017
-    End: Nov. 14,2017
-    ---------------------------------------------------------------------
-    News link: https://www.ragnarokonline.com.ph/news/special-daily-login
-    Event link: https://activities.ragnarokonline.com.ph/chaos-daily-login
-
-    Start: Sep. 27, 2017, 7.30 PM
-    End: Oct. 31, 2017, 11.59 PM
-    """
+def claim_daily_login_rewards(cred):
     daily_login_events = [
         {'url': 'https://activities.ragnarokonline.com.ph/daily-login',
          'name': 'Daily Login Oct 2017',
          'end_date': datetime(2017, 11, 14, 23, 59)},
-        {'url': 'https://activities.ragnarokonline.com.ph/chaos-daily-login',
-            'name': 'Chaos Daily Login',
-            'end_date': datetime(2017, 10, 31, 23, 59)},
     ]
 
     for login_event in daily_login_events:
@@ -79,7 +63,7 @@ def daily_logins(cred):
                 print('Bonus reward claimed!')
 
 
-def lets_go_hidden(cred):
+def play_lets_go_hidden(cred):
     """
     News link: https://www.ragnarokonline.com.ph/news/lets-go-hidden
     Event link: https://www.ragnarokonline.com.ph/news/lets-go-hidden
@@ -141,8 +125,8 @@ def lets_go_hidden(cred):
 def main():
     for cred in CREDS_LIST:
         print('Getting rewards for user: %s' % cred['USERNAME'])
-        daily_logins(cred)
-        lets_go_hidden(cred)
+        claim_daily_login_rewards(cred)
+        play_lets_go_hidden(cred)
 
 
 if __name__ == "__main__":
