@@ -53,14 +53,26 @@ def claim_daily_login_rewards(cred):
                 redeem_link = href.replace('redeem', 'send-items')[:111]
                 # Simulate clicking of the OK button to accept the free item
                 roph.open(redeem_link)
-                print('Reward claimed!')
+
+                item_name = None
+                latest_items = roph.select('.BoxItem.disabled')
+
+                if latest_items:
+                    last_item_received = latest_items[-1]
+                    day, item_name = filter(None, last_item_received.text.splitlines())
+                    print('Reward claimed @ Day {day}: {item_name}'.format(day=day, item_name=item_name))
 
             if 'share' in href:
                 # End of the week reached, simulate sharing page to FB
-                # just use redeem-bonus get arg to skip sharing to fb
+                roph.open(href)
+                # Then use redeem-bonus get arg to skip sharing to FB
                 redeem_link = href.replace('share', 'redeem-bonus')
                 roph.open(redeem_link)
-                print('Bonus reward claimed!')
+
+                bonus_item = roph.select('#items_name')
+
+                if bonus_item:
+                    print('Bonus reward claimed: %s' % bonus_item[0].text)
 
 
 def play_lets_go_hidden(cred):
