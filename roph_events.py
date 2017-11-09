@@ -97,6 +97,7 @@ def play_lets_go_hidden(cred):
     got_item_text = 'You got the item'
     game_conquered = False
     acquired_item_class = '.text-item.text-center'
+    path_option_indicator = 'way'
 
     while not game_conquered:
         roph = ROPH(cred['USERNAME'], cred['PASSWORD'], login_url)
@@ -109,7 +110,7 @@ def play_lets_go_hidden(cred):
         while not game_over:
             all_paths = [
                 link.attrs.get('href', '') for link in roph.get_links()
-                if 'way' in link.attrs.get('href', '')
+                if path_option_indicator in link.attrs.get('href', '')
             ]
 
             if not all_paths and game_already_joined_today in roph.response.text:
