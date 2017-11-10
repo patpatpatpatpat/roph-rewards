@@ -149,12 +149,12 @@ def play_lets_go_hidden(cred):
                 game_conquered = True
 
 
-def main():
+def claim_rewards(code=None):
     for cred in CREDS_LIST:
-        print('Getting rewards for user: %s' % cred['USERNAME'])
+        print('------------------------------------------------')
+        print('User: %s' % cred['USERNAME'])
         claim_daily_login_rewards(cred)
-        play_lets_go_hidden(cred)
 
 
 if __name__ == "__main__":
-    main()
+    claim_rewards()
