@@ -200,8 +200,8 @@ def redeem_items_from_code(credentials, code):
                 except IndexError:
                     pass
 
-    print('You got:')
-    print('\n'.join(cleaned_item_list))
+        print('You got:')
+        print('\n'.join(cleaned_item_list))
 
 
 def claim_rewards(code=None):
