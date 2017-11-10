@@ -20,6 +20,8 @@ Get the free items from their website:
 2. Open `credentials.py`, replace `yourusername` and `yourpassword` with your actual ROPH username and password. Add more dictionaries if you have multiple accounts.
 3. Using the terminal/command prompt, switch to the directory where you downloaded the roph-rewards project.
 4. Run the script: `python roph_events.py`
+5. If you have an item code, run `python roph_events.py <your_item_code>`.
+   * Example: `python roph_events.py FEWY-DD9V-EZZ1-KA1G`
 
 ### Sample MacOS run
 ![Sample MacOS run](https://github.com/patpatpatpatpat/roph-rewards/blob/master/sample_runs/roph-rewards-mac.gif "Sample MacOS run")
