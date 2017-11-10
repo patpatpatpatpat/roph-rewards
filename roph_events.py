@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime
 from random import choice
 
@@ -149,12 +150,74 @@ def play_lets_go_hidden(cred):
                 game_conquered = True
 
 
+def redeem_items_from_code(credentials, code):
+    """
+    `credentials`: Dictionary containing the user's username & password
+    `code`: Item code for redeeming items. Example: FEWY-DD9V-EZZ1-KA1G
+    """
+    login_url = 'https://www.ragnarokonline.com.ph/login'
+    redeem_url = 'https://www.ragnarokonline.com.ph/itemcode'
+    redemption_history_url = 'https://www.ragnarokonline.com.ph/itemcode/history'
+    possible_errors = [
+        'The itemcode format is invalid.',
+        'An item code could not be found in the system.',
+        'The used count per account has reached limit.',
+    ]
+    latest_rewards_list_class = 'tr .col-xs-4'
+    item_quantity_indicator = 'x'  # Examples: Miracle Tonic x2, Siege White Potion x150
+
+    browser = ROPH(credentials['USERNAME'], credentials['PASSWORD'], login_url)
+
+    print('Getting rewards via item code: %s' % code)
+    browser.open(redeem_url)
+    redeem_form = browser.get_form()
+    redeem_form['itemcode'] = code
+    browser.submit_form(redeem_form)
+    code_is_invalid = any([error in browser.response.text for error in possible_errors])
+
+    if code_is_invalid:
+        print('Item code invalid or already used.')
+    else:
+        browser.open(redemption_history_url)
+
+        if browser.select(latest_rewards_list_class):
+            cleaned_item_list = []
+            latest_reward_index = 1  # Index 0 is table header
+            items_from_latest_redemption = [
+                item.strip() for item in
+                browser.select(latest_rewards_list_class)[latest_reward_index].text.splitlines()
+            ]
+            items_from_latest_redemption = list(filter(None, items_from_latest_redemption))
+
+            for i, item in enumerate(items_from_latest_redemption):
+                try:
+                    next_item_index = i + 1
+                    if items_from_latest_redemption[next_item_index].startswith(item_quantity_indicator):
+                        item_quantity = items_from_latest_redemption[next_item_index]
+                        cleaned_item_list.append('{} {}'.format(item, item_quantity))
+                    elif not item.startswith(item_quantity_indicator):
+                        cleaned_item_list.append(item)  # Actual item name
+                except IndexError:
+                    pass
+
+    print('You got:')
+    print('\n'.join(cleaned_item_list))
+
+
 def claim_rewards(code=None):
     for cred in CREDS_LIST:
         print('------------------------------------------------')
         print('User: %s' % cred['USERNAME'])
         claim_daily_login_rewards(cred)
 
+        if code:
+            redeem_items_from_code(cred, code)
+
 
 if __name__ == "__main__":
-    claim_rewards()
+    code = None
+
+    if len(sys.argv) > 1:
+        code = sys.argv[1]
+
+    claim_rewards(code)
