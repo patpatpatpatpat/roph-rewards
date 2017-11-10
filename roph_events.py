@@ -2,6 +2,7 @@ from datetime import datetime
 from random import choice
 
 import robobrowser
+from werkzeug.exceptions import BadRequestKeyError
 
 from credentials import CREDS_LIST
 
@@ -18,7 +19,10 @@ class ROPH(robobrowser.RoboBrowser):
         if not login_form:
             raise Exception('No form. Probably an ongoing maintenance.')
 
-        login_form['exe_id'] = username
+        try:
+            login_form['exe_id'] = username
+        except BadRequestKeyError:
+            login_form['exeid'] = username
         login_form['password'] = password
 
         self.submit_form(login_form)
