@@ -194,9 +194,9 @@ def redeem_items_from_code(credentials, code):
                     next_item_index = i + 1
                     if items_from_latest_redemption[next_item_index].startswith(item_quantity_indicator):
                         item_quantity = items_from_latest_redemption[next_item_index]
-                        cleaned_item_list.append('{} {}'.format(item, item_quantity))
+                        cleaned_item_list.append('- {} {}'.format(item, item_quantity))
                     elif not item.startswith(item_quantity_indicator):
-                        cleaned_item_list.append(item)  # Actual item name
+                        cleaned_item_list.append('- ' + item)  # Actual item name
                 except IndexError:
                     pass
 
