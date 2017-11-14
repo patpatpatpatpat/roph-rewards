@@ -39,7 +39,7 @@ Get the free items from their website:
 | ------------- |:-------------:| -----:|
 | [Chaos Daily Login](https://www.ragnarokonline.com.ph/news/special-daily-login)      | September 27, 2017 (7.30 PM) | October 31, 2017 (11.59 PM) |
 | [Let's Go To Hidden Novice Treasure's Adventure](https://www.ragnarokonline.com.ph/news/lets-go-hidden) | October 11, 2017 (4.00 PM) | November 8, 2017 (09.59 AM) |
-| [Daily Login Rewards - October](https://www.ragnarokonline.com.ph/news/dailylogin-oct2017) | October 16th , 2017 (04.00 PM) | November 14th , 2017 (11.59 PM) |
+| [Daily Login Rewards - October](https://www.ragnarokonline.com.ph/news/dailylogin-oct2017) | October 16, 2017 (04.00 PM) | November 14, 2017 (11.59 PM) |
 
 ## Supported ROPH Events
 | Event Name        | Start           | End  |
