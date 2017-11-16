@@ -214,6 +214,84 @@ def claim_rewards(code=None):
             redeem_items_from_code(cred, code)
 
 
+def play_matching_cards(cred):
+    """
+    News link: https://www.ragnarokonline.com.ph/news/card-matching
+    """
+    print('Getting rewards from: Card Matching')
+    end_date = datetime(2017, 12, 13, 9, 59)
+
+    if not datetime.today() <= end_date:
+        print('Sorry, the event already expired.')
+        return
+
+    login_url = 'https://activities.ragnarokonline.com.ph/matching-cards/login'
+    cannot_play_game_error = 'Your ID does not contain a 50 level character.'
+
+    browser = ROPH(cred['USERNAME'], cred['PASSWORD'], login_url)
+
+    if cannot_play_game_error in browser.response.text:
+        print(cannot_play_game_error)
+        return
+
+    remaining_chances_class = '.logid-pointday'
+    remaining_chances = 0
+
+    if browser.select(remaining_chances_class):
+        remaining_chances = int(browser.select(remaining_chances_class)[0].text.strip())
+
+    if remaining_chances == 0:
+        print('No chances remaining. Share to FB or play tomorrow.')
+        return
+
+    card_option_indicator = 'play?card'
+    all_card_options = [
+        link.attrs.get('href', '') for link in browser.get_links()
+        if card_option_indicator in link.attrs.get('href', '')
+    ]
+
+    # TODO: store dump of current cards and values for the day in a separate json file
+    cards_and_values = {
+        card.split('=')[-1]: None for card in all_card_options
+    }
+    match_card_number = None
+    cards_matched_indicator = 'Congratulations! Matching completed.'
+
+    print('Remaining chances: %s' % remaining_chances)
+    while remaining_chances != 0:
+        if match_card_number:
+            chosen_card = 'https://activities.ragnarokonline.com.ph/matching-cards/play?card=%s' % match_card_number
+            match_card_number = None
+            print('Picking matching card...')
+        else:
+            chosen_card = choice(all_card_options)
+            all_card_options.remove(chosen_card)
+            print('Picking random card...')
+
+        chosen_card_number = chosen_card.split('=')[-1]
+
+        browser.open(chosen_card)
+
+        if cards_matched_indicator in browser.response.text:
+            print('You gained 1 emerald!')
+
+        chosen_card_value = browser.select('#card-%s img' % chosen_card_number)[0].attrs.get('src')
+
+        if chosen_card_value in cards_and_values.values() and not match_card_number:
+            values_to_cards = {
+                value: key for key, value in cards_and_values.items()
+            }
+            match_card_number = values_to_cards[chosen_card_value]
+            print('Match found!')
+        else:
+            print('No match found.')
+
+        cards_and_values[chosen_card_number] = chosen_card_value
+        remaining_chances = int(browser.select(remaining_chances_class)[0].text.strip())
+
+    print('No chances remaining. Share to FB or play tomorrow.')
+
+
 if __name__ == "__main__":
     code = None
 
