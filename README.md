@@ -44,5 +44,6 @@ Get the free items from their website:
 ## Supported ROPH Events
 | Event Name        | Start           | End  |
 | ------------- |:-------------:| -----:|
-| Daily Login Rewards - December | November 15 , 2017 | December 14, 2017 (11.59 PM) |
+| [Daily Login Rewards - December](https://www.ragnarokonline.com.ph/news/dailylogin-nov2017) | November 15 , 2017 | December 14, 2017 (11.59 PM) |
+| [Card Matching](https://www.ragnarokonline.com.ph/news/card-matching) | November 15, 2017 (7.00 PM) | December 13, 2017 (09.59 PM) |
 
