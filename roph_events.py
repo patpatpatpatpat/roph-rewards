@@ -249,32 +249,28 @@ def play_matching_cards(cred):
         link.attrs.get('href', '') for link in browser.get_links()
         if card_option_indicator in link.attrs.get('href', '')
     ]
-
     # TODO: store dump of current cards and values for the day in a separate json file
     cards_and_values = {
         card.split('=')[-1]: None for card in all_card_options
     }
     match_card_number = None
-    cards_matched_indicator = 'Congratulations! Matching completed.'
 
     print('Remaining chances: %s' % remaining_chances)
     while remaining_chances != 0:
         if match_card_number:
             chosen_card = 'https://activities.ragnarokonline.com.ph/matching-cards/play?card=%s' % match_card_number
+            browser.open(chosen_card)
+            print('Match found! You gained 1 emerald!')
             match_card_number = None
-            print('Picking matching card...')
+            remaining_chances -= 1
+            continue
         else:
             chosen_card = choice(all_card_options)
             all_card_options.remove(chosen_card)
             print('Picking random card...')
 
         chosen_card_number = chosen_card.split('=')[-1]
-
         browser.open(chosen_card)
-
-        if cards_matched_indicator in browser.response.text:
-            print('You gained 1 emerald!')
-
         chosen_card_value = browser.select('#card-%s img' % chosen_card_number)[0].attrs.get('src')
 
         if chosen_card_value in cards_and_values.values() and not match_card_number:
@@ -282,14 +278,13 @@ def play_matching_cards(cred):
                 value: key for key, value in cards_and_values.items()
             }
             match_card_number = values_to_cards[chosen_card_value]
-            print('Match found!')
         else:
             print('No match found.')
 
         cards_and_values[chosen_card_number] = chosen_card_value
-        remaining_chances = int(browser.select(remaining_chances_class)[0].text.strip())
+        remaining_chances -= 1
 
-    print('No chances remaining. Share to FB or play tomorrow.')
+    print('No chances remaining. Share to FB then run script again, or run script tomorrow.')
 
 
 if __name__ == "__main__":
