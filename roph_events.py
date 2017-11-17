@@ -179,31 +179,35 @@ def redeem_items_from_code(credentials, code):
 
     if code_is_invalid:
         print('Item code invalid or already used.')
-    else:
-        browser.open(redemption_history_url)
+        return
 
-        if browser.select(latest_rewards_list_class):
-            cleaned_item_list = []
-            latest_reward_index = 1  # Index 0 is table header
-            items_from_latest_redemption = [
-                item.strip() for item in
-                browser.select(latest_rewards_list_class)[latest_reward_index].text.splitlines()
-            ]
-            items_from_latest_redemption = list(filter(None, items_from_latest_redemption))
+    browser.open(redemption_history_url)
 
-            for i, item in enumerate(items_from_latest_redemption):
-                try:
-                    next_item_index = i + 1
-                    if items_from_latest_redemption[next_item_index].startswith(item_quantity_indicator):
-                        item_quantity = items_from_latest_redemption[next_item_index]
-                        cleaned_item_list.append('- {} {}'.format(item, item_quantity))
-                    elif not item.startswith(item_quantity_indicator):
-                        cleaned_item_list.append('- ' + item)  # Actual item name
-                except IndexError:
-                    pass
+    if browser.select(latest_rewards_list_class):
+        cleaned_item_list = []
+        latest_reward_index = 1  # Index 0 is table header
+        items_from_latest_redemption = [
+            item.strip() for item in
+            browser.select(latest_rewards_list_class)[latest_reward_index].text.splitlines()
+        ]
+        items_from_latest_redemption = list(filter(None, items_from_latest_redemption))
+
+        for i, item in enumerate(items_from_latest_redemption):
+            try:
+                next_item_index = i + 1
+                if items_from_latest_redemption[next_item_index].startswith(item_quantity_indicator):
+                    item_quantity = items_from_latest_redemption[next_item_index]
+                    cleaned_item_list.append('- {} {}'.format(item, item_quantity))
+                elif not item.startswith(item_quantity_indicator):
+                    cleaned_item_list.append('- ' + item)  # Actual item name
+            except IndexError:
+                pass
 
         print('You got:')
         print('\n'.join(cleaned_item_list))
+        return
+
+    print('Nothing redeemed.')
 
 
 def claim_rewards(code=None):
