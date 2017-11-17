@@ -1,3 +1,5 @@
+import json
+import os
 import sys
 from datetime import datetime
 from random import choice
@@ -209,6 +211,7 @@ def claim_rewards(code=None):
         print('------------------------------------------------')
         print('User: %s' % cred['USERNAME'])
         claim_daily_login_rewards(cred)
+        play_matching_cards(cred)
 
         if code:
             redeem_items_from_code(cred, code)
@@ -218,6 +221,31 @@ def play_matching_cards(cred):
     """
     News link: https://www.ragnarokonline.com.ph/news/card-matching
     """
+    date_today = datetime.today().strftime('%Y-%d-%m')
+    CARD_DATA_FILENAME = '{username}_{date}_card_data.json'.format(
+        username=cred['USERNAME'],
+        date=date_today,
+    )
+
+    def get_emerald_count(br):
+        emerald_count_class = '.point-aw'
+        return br.select(emerald_count_class)[0].text
+
+    def get_remaining_chances_count(br):
+        remaining_chances_class = '.logid-pointday'
+        return int(browser.select(remaining_chances_class)[0].text.strip())
+
+    def load_card_data():
+        if os.path.exists(CARD_DATA_FILENAME):
+            with open(CARD_DATA_FILENAME, 'r') as fp:
+                return json.load(fp)
+                print('Card data for %s loaded.' % date_today)
+
+    def save_card_data(card_data):
+        with open(CARD_DATA_FILENAME, 'w') as fp:
+            json.dump(card_data, fp, sort_keys=True, indent=4)
+            print('Card data for %s saved.' % date_today)
+
     print('Getting rewards from: Card Matching')
     end_date = datetime(2017, 12, 13, 9, 59)
 
@@ -234,27 +262,35 @@ def play_matching_cards(cred):
         print(cannot_play_game_error)
         return
 
-    remaining_chances_class = '.logid-pointday'
-    remaining_chances = 0
-
-    if browser.select(remaining_chances_class):
-        remaining_chances = int(browser.select(remaining_chances_class)[0].text.strip())
-
-    if remaining_chances == 0:
-        print('No chances remaining. Share to FB or play tomorrow.')
-        return
-
+    remaining_chances = get_remaining_chances_count(browser)
     card_option_indicator = 'play?card'
     all_card_options = [
         link.attrs.get('href', '') for link in browser.get_links()
         if card_option_indicator in link.attrs.get('href', '')
     ]
-    # TODO: store dump of current cards and values for the day in a separate json file
-    cards_and_values = {
-        card.split('=')[-1]: None for card in all_card_options
-    }
+    existing_cards_and_values = load_card_data()
+
+    if existing_cards_and_values:
+        cards_and_values = existing_cards_and_values
+
+        # Remove already opened cards in options
+        cards_to_remove = [
+            key for key in cards_and_values.keys()
+            if cards_and_values[key]
+        ]
+        all_card_options = [
+            card for card in all_card_options
+            if card.split('=')[-1] not in cards_to_remove
+        ]
+    else:
+        cards_and_values = {
+            card.split('=')[-1]: None for card in all_card_options
+        }
+
     match_card_number = None
 
+    # Start card matching
+    print('Number of Emeralds: %s' % get_emerald_count(browser))
     print('Remaining chances: %s' % remaining_chances)
     while remaining_chances != 0:
         if match_card_number:
@@ -285,6 +321,8 @@ def play_matching_cards(cred):
         remaining_chances -= 1
 
     print('No chances remaining. Share to FB then run script again, or run script tomorrow.')
+    print('Number of Emeralds: %s' % get_emerald_count(browser))
+    save_card_data(cards_and_values)
 
 
 if __name__ == "__main__":
