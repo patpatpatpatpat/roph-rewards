@@ -226,6 +226,7 @@ def play_matching_cards(cred):
         username=cred['USERNAME'],
         date=date_today,
     )
+    CARD_OPTION_FORMAT = 'https://activities.ragnarokonline.com.ph/matching-cards/play?card=%s'
 
     def get_emerald_count(br):
         emerald_count_class = '.point-aw'
@@ -246,6 +247,9 @@ def play_matching_cards(cred):
             json.dump(card_data, fp, sort_keys=True, indent=4)
             print('Card data for %s saved.' % date_today)
 
+    def get_card_number(card_option):
+        return card_option.split('=')[-1]
+
     print('Getting rewards from: Card Matching')
     end_date = datetime(2017, 12, 13, 9, 59)
 
@@ -263,10 +267,9 @@ def play_matching_cards(cred):
         return
 
     remaining_chances = get_remaining_chances_count(browser)
-    card_option_indicator = 'play?card'
     all_card_options = [
         link.attrs.get('href', '') for link in browser.get_links()
-        if card_option_indicator in link.attrs.get('href', '')
+        if 'play?card' in link.attrs.get('href', '')
     ]
     existing_cards_and_values = load_card_data()
 
@@ -280,11 +283,11 @@ def play_matching_cards(cred):
         ]
         all_card_options = [
             card for card in all_card_options
-            if card.split('=')[-1] not in cards_to_remove
+            if get_card_number(card) not in cards_to_remove
         ]
     else:
         cards_and_values = {
-            card.split('=')[-1]: None for card in all_card_options
+            get_card_number(card): None for card in all_card_options
         }
 
     match_card_number = None
@@ -294,7 +297,7 @@ def play_matching_cards(cred):
     print('Remaining chances: %s' % remaining_chances)
     while remaining_chances != 0:
         if match_card_number:
-            chosen_card = 'https://activities.ragnarokonline.com.ph/matching-cards/play?card=%s' % match_card_number
+            chosen_card = CARD_OPTION_FORMAT % match_card_number
             browser.open(chosen_card)
             print('Match found! You gained 1 emerald!')
             match_card_number = None
@@ -305,7 +308,7 @@ def play_matching_cards(cred):
             all_card_options.remove(chosen_card)
             print('Picking random card...')
 
-        chosen_card_number = chosen_card.split('=')[-1]
+        chosen_card_number = get_card_number(chosen_card)
         browser.open(chosen_card)
         chosen_card_value = browser.select('#card-%s img' % chosen_card_number)[0].attrs.get('src')
 
