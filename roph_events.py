@@ -337,7 +337,7 @@ def play_matching_cards(cred):
         browser.open(chosen_card)
         chosen_card_value = browser.select('#card-%s img' % chosen_card_number)[0].attrs.get('src')
 
-        if chosen_card_value in cards_and_values.values() and not match_card_number:
+        if chosen_card_value in cards_and_values.values():
             values_to_cards = {
                 value: key for key, value in cards_and_values.items()
             }
