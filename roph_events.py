@@ -1,5 +1,3 @@
-import json
-import os
 import sys
 from datetime import datetime
 from random import choice
@@ -225,12 +223,10 @@ def play_matching_cards(cred):
     """
     News link: https://www.ragnarokonline.com.ph/news/card-matching
     """
-    date_today = datetime.today().strftime('%Y-%d-%m')
-    CARD_DATA_FILENAME = '{username}_{date}_card_data.json'.format(
-        username=cred['USERNAME'],
-        date=date_today,
-    )
     CARD_OPTION_FORMAT = 'https://activities.ragnarokonline.com.ph/matching-cards/play?card=%s'
+    share_url = 'https://activities.ragnarokonline.com.ph/matching-cards/share'
+    login_url = 'https://activities.ragnarokonline.com.ph/matching-cards/login'
+    cannot_play_game_error = 'Your ID does not contain a 50 level character.'
 
     def get_emerald_count(br):
         emerald_count_class = '.point-aw'
@@ -239,17 +235,6 @@ def play_matching_cards(cred):
     def get_remaining_chances_count(br):
         remaining_chances_class = '.logid-pointday'
         return int(browser.select(remaining_chances_class)[0].text.strip())
-
-    def load_card_data():
-        if os.path.exists(CARD_DATA_FILENAME):
-            with open(CARD_DATA_FILENAME, 'r') as fp:
-                return json.load(fp)
-                print('Card data for %s loaded.' % date_today)
-
-    def save_card_data(card_data):
-        with open(CARD_DATA_FILENAME, 'w') as fp:
-            json.dump(card_data, fp, sort_keys=True, indent=4)
-            print('Card data for %s saved.' % date_today)
 
     def get_card_number(card_option):
         return card_option.split('=')[-1]
@@ -260,9 +245,6 @@ def play_matching_cards(cred):
     if not datetime.today() <= end_date:
         print('Sorry, the event already expired.')
         return
-
-    login_url = 'https://activities.ragnarokonline.com.ph/matching-cards/login'
-    cannot_play_game_error = 'Your ID does not contain a 50 level character.'
 
     browser = ROPH(cred['USERNAME'], cred['PASSWORD'], login_url)
 
@@ -275,35 +257,30 @@ def play_matching_cards(cred):
         link.attrs.get('href', '') for link in browser.get_links()
         if 'play?card' in link.attrs.get('href', '')
     ]
-    existing_cards_and_values = load_card_data()
+    cards_and_values = {
+        get_card_number(card): None for card in all_card_options
+    }
 
-    if existing_cards_and_values:
-        cards_and_values = existing_cards_and_values
-
-        # Remove already opened cards in options
-        cards_to_remove = [
-            key for key in cards_and_values.keys()
-            if cards_and_values[key]
-        ]
-        all_card_options = [
-            card for card in all_card_options
-            if get_card_number(card) not in cards_to_remove
-        ]
-    else:
-        cards_and_values = {
-            get_card_number(card): None for card in all_card_options
-        }
-
+    claimed_bonus_chances = False
     match_card_number = None
     last_picked_card_value = None
     last_picked_card_number = None
+
     # Start card matching
     print('Number of Emeralds: %s' % get_emerald_count(browser))
     print('Remaining chances: %s' % remaining_chances)
 
-    while remaining_chances != 0:
+    while True:
+        if remaining_chances == 0 and not claimed_bonus_chances:
+            browser.open(share_url)
+            print('Faked FB share to increase chances by %s' % get_remaining_chances_count(browser))
+            remaining_chances = get_remaining_chances_count(browser)
+            claimed_bonus_chances = True
+        elif remaining_chances == 0 and claimed_bonus_chances:
+            break
+
+        # Check for matches every after 2 picks
         if remaining_chances % 2 == 0:
-            print('Checking for pairs...')
             pairs = []
             for card_number in cards_and_values.keys():
                 if list(cards_and_values.values()).count(cards_and_values[card_number]) == 2:
@@ -316,14 +293,24 @@ def play_matching_cards(cred):
                 remaining_chances -= 2
                 cards_and_values.pop(pairs[0])
                 cards_and_values.pop(pairs[1])
+                last_picked_card_value = None
+                last_picked_card_number = None
+                match_card_number = None
                 continue
 
         if match_card_number:
             chosen_card = CARD_OPTION_FORMAT % match_card_number
             browser.open(chosen_card)
             print('Matched with #%s! You gained 1 emerald!' % match_card_number)
-            cards_and_values.pop(match_card_number)
+
+            try:
+                cards_and_values.pop(match_card_number)
+                cards_and_values.pop(last_picked_card_number)
+            except KeyError:
+                pass
             match_card_number = None
+            last_picked_card_value = None
+            last_picked_card_number = None
             remaining_chances -= 1
             continue
 
@@ -335,9 +322,14 @@ def play_matching_cards(cred):
         chosen_card_value = browser.select('#card-%s img' % chosen_card_number)[0].attrs.get('src')
 
         if remaining_chances % 2 == 1 and last_picked_card_value == chosen_card_value:
-            # Inform user if the randomly picked cards matched
-            print('Matched with #%s! You gained 1 emerald!' % last_picked_card_number)
+            # Inform user if the 2 randomly picked cards matched
+            print('Randomly matched with #%s! You gained 1 emerald!' % chosen_card_number)
             cards_and_values.pop(last_picked_card_number)
+            last_picked_card_value = None
+            last_picked_card_number = None
+            remaining_chances -= 1
+            continue
+
         else:
             print('Picking card #%s...' % chosen_card_number)
 
@@ -346,9 +338,7 @@ def play_matching_cards(cred):
                     value: key for key, value in cards_and_values.items()
                 }
                 match_card_number = values_to_cards[chosen_card_value]
-
-                if remaining_chances >= 1:
-                    cards_and_values.pop(chosen_card_number)
+                cards_and_values[chosen_card_number] = chosen_card_value
             else:
                 cards_and_values[chosen_card_number] = chosen_card_value
                 print('No match found.')
@@ -357,9 +347,8 @@ def play_matching_cards(cred):
         last_picked_card_value = chosen_card_value
         last_picked_card_number = chosen_card_number
 
-    print('No chances remaining. Share to FB then run script again, or run script tomorrow.')
+    print('No chances remaining. Play again tomorrow.')
     print('Number of Emeralds: %s' % get_emerald_count(browser))
-    save_card_data(cards_and_values)
 
 
 if __name__ == "__main__":
