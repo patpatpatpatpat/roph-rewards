@@ -324,6 +324,7 @@ def play_matching_cards(cred):
             print('Matched with #%s! You gained 1 emerald!' % match_card_number)
             cards_and_values.pop(match_card_number)
             match_card_number = None
+            remaining_chances -= 1
             continue
 
         chosen_card = choice(all_card_options)
