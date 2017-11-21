@@ -336,20 +336,21 @@ def play_matching_cards(cred):
         if remaining_chances % 2 == 1 and last_picked_card_value == chosen_card_value:
             # Inform user if the randomly picked cards matched
             print('Matched with #%s! You gained 1 emerald!' % last_picked_card_number)
+            cards_and_values.pop(last_picked_card_number)
         else:
             print('Picking card #%s...' % chosen_card_number)
 
-        if chosen_card_value in cards_and_values.values():
-            values_to_cards = {
-                value: key for key, value in cards_and_values.items()
-            }
-            match_card_number = values_to_cards[chosen_card_value]
+            if chosen_card_value in cards_and_values.values():
+                values_to_cards = {
+                    value: key for key, value in cards_and_values.items()
+                }
+                match_card_number = values_to_cards[chosen_card_value]
 
-            if remaining_chances >= 1:
-                cards_and_values.pop(chosen_card_number)
-        else:
-            cards_and_values[chosen_card_number] = chosen_card_value
-            print('No match found.')
+                if remaining_chances >= 1:
+                    cards_and_values.pop(chosen_card_number)
+            else:
+                cards_and_values[chosen_card_number] = chosen_card_value
+                print('No match found.')
 
         remaining_chances -= 1
         last_picked_card_value = chosen_card_value
