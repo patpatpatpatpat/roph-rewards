@@ -295,31 +295,28 @@ def play_matching_cards(cred):
         }
 
     match_card_number = None
-
+    last_picked_card_value = None
+    last_picked_card_number = None
     # Start card matching
     print('Number of Emeralds: %s' % get_emerald_count(browser))
     print('Remaining chances: %s' % remaining_chances)
 
-    pick_count = 0
-
     while remaining_chances != 0:
-        if (pick_count % 2 == 0 and remaining_chances % 2 == 0):
+        if remaining_chances % 2 == 0:
+            print('Checking for pairs...')
             pairs = []
             for card_number in cards_and_values.keys():
                 if list(cards_and_values.values()).count(cards_and_values[card_number]) == 2:
                     pairs.append(card_number)
+
             if pairs:
                 browser.open(CARD_OPTION_FORMAT % pairs[0])
                 browser.open(CARD_OPTION_FORMAT % pairs[1])
                 print('Matched cards #%s & #%s! You gained 1 emerald!' % (pairs[0], pairs[1]))
                 remaining_chances -= 2
-                pick_count = 0
                 cards_and_values.pop(pairs[0])
                 cards_and_values.pop(pairs[1])
                 continue
-
-        pick_count += 1
-        remaining_chances -= 1
 
         if match_card_number:
             chosen_card = CARD_OPTION_FORMAT % match_card_number
@@ -332,10 +329,15 @@ def play_matching_cards(cred):
         chosen_card = choice(all_card_options)
         chosen_card_number = get_card_number(chosen_card)
         all_card_options.remove(chosen_card)
-        print('Picking card #%s...' % chosen_card_number)
 
         browser.open(chosen_card)
         chosen_card_value = browser.select('#card-%s img' % chosen_card_number)[0].attrs.get('src')
+
+        if remaining_chances % 2 == 1 and last_picked_card_value == chosen_card_value:
+            # Inform user if the randomly picked cards matched
+            print('Matched with #%s! You gained 1 emerald!' % last_picked_card_number)
+        else:
+            print('Picking card #%s...' % chosen_card_number)
 
         if chosen_card_value in cards_and_values.values():
             values_to_cards = {
@@ -343,11 +345,15 @@ def play_matching_cards(cred):
             }
             match_card_number = values_to_cards[chosen_card_value]
 
-            if remaining_chances != 0:
+            if remaining_chances >= 1:
                 cards_and_values.pop(chosen_card_number)
         else:
             cards_and_values[chosen_card_number] = chosen_card_value
             print('No match found.')
+
+        remaining_chances -= 1
+        last_picked_card_value = chosen_card_value
+        last_picked_card_number = chosen_card_number
 
     print('No chances remaining. Share to FB then run script again, or run script tomorrow.')
     print('Number of Emeralds: %s' % get_emerald_count(browser))
