@@ -276,7 +276,8 @@ def play_matching_cards(cred):
             print('Faked FB share to increase chances by %s' % get_remaining_chances_count(browser))
             remaining_chances = get_remaining_chances_count(browser)
             claimed_bonus_chances = True
-        elif remaining_chances == 0 and claimed_bonus_chances:
+
+        if remaining_chances == 0 and claimed_bonus_chances:
             break
 
         # Check for matches every after 2 picks
