@@ -40,10 +40,12 @@ Get the free items from their website:
 | [Chaos Daily Login](https://www.ragnarokonline.com.ph/news/special-daily-login)      | September 27, 2017 (7.30 PM) | October 31, 2017 (11.59 PM) |
 | [Let's Go To Hidden Novice Treasure's Adventure](https://www.ragnarokonline.com.ph/news/lets-go-hidden) | October 11, 2017 (4.00 PM) | November 8, 2017 (09.59 AM) |
 | [Daily Login Rewards - October](https://www.ragnarokonline.com.ph/news/dailylogin-oct2017) | October 16, 2017 (04.00 PM) | November 14, 2017 (11.59 PM) |
+| [Daily Login Rewards - November](https://www.ragnarokonline.com.ph/news/dailylogin-nov2017) | November 15, 2017 | December 14, 2017 (11.59 PM) |
+| [Card Matching](https://www.ragnarokonline.com.ph/news/card-matching) | November 15, 2017 (7.00 PM) | December 13, 2017 (09.59 PM) |
 
-## Supported ROPH Events
+
+## Supported Events
 | Event Name        | Start           | End  |
 | ------------- |:-------------:| -----:|
-| [Daily Login Rewards - December](https://www.ragnarokonline.com.ph/news/dailylogin-nov2017) | November 15 , 2017 | December 14, 2017 (11.59 PM) |
-| [Card Matching](https://www.ragnarokonline.com.ph/news/card-matching) | November 15, 2017 (7.00 PM) | December 13, 2017 (09.59 PM) |
+| [Daily Login Rewards - December](https://www.ragnarokonline.com.ph/news/daily-login-december) | December 15, 2017 | January 15, 2017 (11.59 PM) |
 
