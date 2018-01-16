@@ -42,10 +42,11 @@ Get the free items from their website:
 | [Daily Login Rewards - October](https://www.ragnarokonline.com.ph/news/dailylogin-oct2017) | October 16, 2017 (04.00 PM) | November 14, 2017 (11.59 PM) |
 | [Daily Login Rewards - November](https://www.ragnarokonline.com.ph/news/dailylogin-nov2017) | November 15, 2017 | December 14, 2017 (11.59 PM) |
 | [Card Matching](https://www.ragnarokonline.com.ph/news/card-matching) | November 15, 2017 (7.00 PM) | December 13, 2017 (09.59 PM) |
+| [Daily Login Rewards - December](https://www.ragnarokonline.com.ph/news/daily-login-december) | December 15, 2017 | January 15, 2017 (11.59 PM) |
 
 
 ## Supported Events
 | Event Name        | Start           | End  |
 | ------------- |:-------------:| -----:|
-| [Daily Login Rewards - December](https://www.ragnarokonline.com.ph/news/daily-login-december) | December 15, 2017 | January 15, 2017 (11.59 PM) |
+| [Daily Login Rewards - January](https://www.ragnarokonline.com.ph/news/daily-login-january2018) | January 16, 2017 | February 14, 2017 (Before the Maintenance) |
 
