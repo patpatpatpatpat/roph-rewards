@@ -48,5 +48,6 @@ Get the free items from their website:
 ## Supported Events
 | Event Name        | Start           | End  |
 | ------------- |:-------------:| -----:|
-| [Daily Login Rewards - January](https://www.ragnarokonline.com.ph/news/daily-login-january2018) | January 16, 2017 | February 14, 2017 (Before the Maintenance) |
+| [Daily Login Rewards - January](https://www.ragnarokonline.com.ph/news/daily-login-january2018) | January 16, 2018 | February 14, 2018 (Before the Maintenance) |
+| [Midgard Adventure](https://www.ragnarokonline.com.ph/news/midgard-adventure) | January 16, 2018 | February 14, 2018 (Before the Maintenance) |
 
