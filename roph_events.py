@@ -26,7 +26,6 @@ class ROPH(robobrowser.RoboBrowser):
             try:
                 login_form['exeid'] = username
             except BadRequestKeyError:
-                print('hi')
                 login_form['username'] = username
         login_form['password'] = password
 
