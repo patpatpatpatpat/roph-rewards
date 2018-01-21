@@ -23,7 +23,11 @@ class ROPH(robobrowser.RoboBrowser):
         try:
             login_form['exe_id'] = username
         except BadRequestKeyError:
-            login_form['exeid'] = username
+            try:
+                login_form['exeid'] = username
+            except BadRequestKeyError:
+                print('hi')
+                login_form['username'] = username
         login_form['password'] = password
 
         self.submit_form(login_form)
@@ -208,11 +212,49 @@ def redeem_items_from_code(credentials, code):
     print('Nothing redeemed.')
 
 
+def play_midgard_adventure(cred):
+    print('Getting rewards from: Midgard Adventure')
+    end_date = datetime(2018, 2, 14, 9, 59)
+
+    if not datetime.today() <= end_date:
+        print('Sorry, the event already expired.')
+        return
+
+    MAX_ROLLS_REACHED_ERROR = 'Unprocessable Entity'
+    LEVEL_REQUIREMENT_NOT_REACHED_ERROR = 'Level is lower then required.'
+    login_url = 'https://acts.ragnarokonline.com.ph/snake-ladders/ragnarok-philippines/ph-snake-ladder-jan-2018/login'
+    share_url = 'https://acts.ragnarokonline.com.ph/snake-ladders/ragnarok-philippines/ph-snake-ladder-jan-2018/shared'
+    acquired_item_class = '.item-detail'
+
+    browser = ROPH(cred['USERNAME'], cred['PASSWORD'], login_url)
+
+    print('Playing Midgard Adventure...')
+    while True:
+        roll_dice_form = browser.get_form()
+        browser.submit_form(roll_dice_form)
+
+        if MAX_ROLLS_REACHED_ERROR in browser.response.text:
+            print('Maximum dice rolls for today reached.')
+            break
+        if LEVEL_REQUIREMENT_NOT_REACHED_ERROR in browser.response.text:
+            print('You cannot play because you do not have a level 50 character.')
+            break
+
+        acquired_item = browser.select(acquired_item_class)
+
+        if acquired_item and 'waiting' not in acquired_item[0].text:
+            print('You got: %s' % acquired_item[0].text)
+
+        print('Faking FaceBook share to enable dice rolling...')
+        browser.open(share_url)
+
+
 def claim_rewards(code=None):
     for cred in CREDS_LIST:
         print('------------------------------------------------')
         print('User: %s' % cred['USERNAME'])
         claim_daily_login_rewards(cred)
+        play_midgard_adventure(cred)
 
         if code:
             redeem_items_from_code(cred, code)
