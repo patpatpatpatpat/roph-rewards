@@ -220,7 +220,10 @@ def play_midgard_adventure(cred):
         return
 
     MAX_ROLLS_REACHED_ERROR = 'Unprocessable Entity'
-    LEVEL_REQUIREMENT_NOT_REACHED_ERROR = 'Level is lower then required.'
+    LEVEL_REQUIREMENT_NOT_REACHED_ERRORS = [
+        'Level is lower then required.',
+        'Your account has no Character.',
+    ]
     login_url = 'https://acts.ragnarokonline.com.ph/snake-ladders/ragnarok-philippines/ph-snake-ladder-jan-2018/login'
     share_url = 'https://acts.ragnarokonline.com.ph/snake-ladders/ragnarok-philippines/ph-snake-ladder-jan-2018/shared'
     acquired_item_class = '.item-detail'
@@ -235,7 +238,7 @@ def play_midgard_adventure(cred):
         if MAX_ROLLS_REACHED_ERROR in browser.response.text:
             print('Maximum dice rolls for today reached.')
             break
-        if LEVEL_REQUIREMENT_NOT_REACHED_ERROR in browser.response.text:
+        if any([error in browser.response.text for error in LEVEL_REQUIREMENT_NOT_REACHED_ERRORS]):
             print('You cannot play because you do not have a level 50 character.')
             break
 
