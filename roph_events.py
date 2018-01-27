@@ -233,7 +233,9 @@ def play_midgard_adventure(cred):
     print('Playing Midgard Adventure...')
     while True:
         roll_dice_form = browser.get_form()
-        browser.submit_form(roll_dice_form)
+
+        if roll_dice_form:
+            browser.submit_form(roll_dice_form)
 
         if MAX_ROLLS_REACHED_ERROR in browser.response.text:
             print('Maximum dice rolls for today reached.')
