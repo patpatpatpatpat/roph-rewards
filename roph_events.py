@@ -220,6 +220,7 @@ def play_midgard_adventure(cred):
         return
 
     MAX_ROLLS_REACHED_ERROR = 'Unprocessable Entity'
+    INTERNAL_SERVER_ERROR = 'Internal Server Error'
     LEVEL_REQUIREMENT_NOT_REACHED_ERRORS = [
         'Level is lower then required.',
         'Your account has no Character.',
@@ -239,6 +240,9 @@ def play_midgard_adventure(cred):
 
         if MAX_ROLLS_REACHED_ERROR in browser.response.text:
             print('Maximum dice rolls for today reached.')
+            break
+        if INTERNAL_SERVER_ERROR in browser.response.text:
+            print('Server error.')
             break
         if any([error in browser.response.text for error in LEVEL_REQUIREMENT_NOT_REACHED_ERRORS]):
             print('You cannot play because you do not have a level 50 character.')
