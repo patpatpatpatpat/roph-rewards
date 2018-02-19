@@ -421,7 +421,7 @@ def play_valentine_card_matching(cred):
     def get_card_number(card_option):
         return card_option.split('=')[-1]
 
-    print('Getting rewards from: Card Matching')
+    print('Getting rewards from: Valentine Card Matching')
     end_date = datetime(2018, 3, 14, 9, 59)
 
     if not datetime.today() <= end_date:
@@ -449,7 +449,7 @@ def play_valentine_card_matching(cred):
     last_picked_card_number = None
 
     # Start card matching
-    print('Number of Emeralds: %s' % get_chocolate_count(browser))
+    print('Number of Chocolates: %s' % get_chocolate_count(browser))
     print('Remaining chances: %s' % remaining_chances)
 
     while True:
