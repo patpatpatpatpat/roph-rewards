@@ -43,11 +43,12 @@ Get the free items from their website:
 | [Daily Login Rewards - November](https://www.ragnarokonline.com.ph/news/dailylogin-nov2017) | November 15, 2017 | December 14, 2017 (11.59 PM) |
 | [Card Matching](https://www.ragnarokonline.com.ph/news/card-matching) | November 15, 2017 (7.00 PM) | December 13, 2017 (09.59 PM) |
 | [Daily Login Rewards - December](https://www.ragnarokonline.com.ph/news/daily-login-december) | December 15, 2017 | January 15, 2017 (11.59 PM) |
+| [Daily Login Rewards - January](https://www.ragnarokonline.com.ph/news/daily-login-january2018) | January 16, 2018 | February 14, 2018 (Before the Maintenance) |
+| [Midgard Adventure](https://www.ragnarokonline.com.ph/news/midgard-adventure) | January 16, 2018 | February 14, 2018 (Before the Maintenance) |
 
 
 ## Supported Events
 | Event Name        | Start           | End  |
 | ------------- |:-------------:| -----:|
-| [Daily Login Rewards - January](https://www.ragnarokonline.com.ph/news/daily-login-january2018) | January 16, 2018 | February 14, 2018 (Before the Maintenance) |
-| [Midgard Adventure](https://www.ragnarokonline.com.ph/news/midgard-adventure) | January 16, 2018 | February 14, 2018 (Before the Maintenance) |
+| [Daily Login Rewards - February](https://www.ragnarokonline.com.ph/news/daily-login-feb2018) | February 15, 2018 | March 16, 2018 (11.59 PM) |
 
