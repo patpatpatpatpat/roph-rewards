@@ -262,6 +262,7 @@ def claim_rewards(code=None):
         print('------------------------------------------------')
         print('User: %s' % cred['USERNAME'])
         claim_daily_login_rewards(cred)
+        play_valentine_card_matching(cred)
 
         if code:
             redeem_items_from_code(cred, code)
@@ -398,6 +399,139 @@ def play_matching_cards(cred):
 
     print('No chances remaining. Play again tomorrow.')
     print('Number of Emeralds: %s' % get_emerald_count(browser))
+
+
+def play_valentine_card_matching(cred):
+    """
+    News link: https://www.ragnarokonline.com.ph/news/valentine-card-matching
+    """
+    CARD_OPTION_FORMAT = 'https://acts.ragnarokonline.com.ph/matching-cards/ragnarok-philippines/card-matching/play?card=%s'
+    share_url = 'https://acts.ragnarokonline.com.ph/matching-cards/ragnarok-philippines/card-matching/share'
+    login_url = 'https://acts.ragnarokonline.com.ph/login?return_url=/matching-cards/ragnarok-philippines/card-matching/main'
+    cannot_play_game_error = 'Your ID does not contain a 50 level character.'
+
+    def get_chocolate_count(br):
+        chocolate_count_class = '.point-aw'
+        return br.select(chocolate_count_class)[0].text
+
+    def get_remaining_chances_count(br):
+        remaining_chances_class = '.logid-pointday'
+        return int(br.select(remaining_chances_class)[0].text.strip())
+
+    def get_card_number(card_option):
+        return card_option.split('=')[-1]
+
+    print('Getting rewards from: Card Matching')
+    end_date = datetime(2018, 3, 14, 9, 59)
+
+    if not datetime.today() <= end_date:
+        print('Sorry, the event already expired.')
+        return
+
+    browser = ROPH(cred['USERNAME'], cred['PASSWORD'], login_url)
+
+    if cannot_play_game_error in browser.response.text:
+        print(cannot_play_game_error)
+        return
+
+    remaining_chances = get_remaining_chances_count(browser)
+    all_card_options = [
+        link.attrs.get('href', '') for link in browser.get_links()
+        if 'play?card' in link.attrs.get('href', '')
+    ]
+    cards_and_values = {
+        get_card_number(card): None for card in all_card_options
+    }
+
+    claimed_bonus_chances = False
+    match_card_number = None
+    last_picked_card_value = None
+    last_picked_card_number = None
+
+    # Start card matching
+    print('Number of Emeralds: %s' % get_chocolate_count(browser))
+    print('Remaining chances: %s' % remaining_chances)
+
+    while True:
+        if remaining_chances == 0 and not claimed_bonus_chances:
+            browser.open(share_url)
+            print('Faked FB share to increase chances by %s' % get_remaining_chances_count(browser))
+            remaining_chances = get_remaining_chances_count(browser)
+            claimed_bonus_chances = True
+
+        if remaining_chances == 0 and claimed_bonus_chances:
+            break
+
+        # Check for matches every after 2 picks
+        if remaining_chances % 2 == 0:
+            pairs = []
+            for card_number in cards_and_values.keys():
+                if list(cards_and_values.values()).count(cards_and_values[card_number]) == 2:
+                    pairs.append(card_number)
+
+            if pairs:
+                browser.open(CARD_OPTION_FORMAT % pairs[0])
+                browser.open(CARD_OPTION_FORMAT % pairs[1])
+                print('Matched cards #%s & #%s! You gained 1 chocolate!' % (pairs[0], pairs[1]))
+                remaining_chances -= 2
+                cards_and_values.pop(pairs[0])
+                cards_and_values.pop(pairs[1])
+                last_picked_card_value = None
+                last_picked_card_number = None
+                match_card_number = None
+                continue
+
+        if match_card_number:
+            chosen_card = CARD_OPTION_FORMAT % match_card_number
+            browser.open(chosen_card)
+            print('Matched with #%s! You gained 1 chocolate!' % match_card_number)
+
+            try:
+                cards_and_values.pop(match_card_number)
+                cards_and_values.pop(last_picked_card_number)
+            except KeyError:
+                pass
+            match_card_number = None
+            last_picked_card_value = None
+            last_picked_card_number = None
+            remaining_chances -= 1
+            continue
+
+        chosen_card = choice(all_card_options)
+        chosen_card_number = get_card_number(chosen_card)
+        all_card_options.remove(chosen_card)
+
+        browser.open(chosen_card)
+        chosen_card_value = browser.select('#card-%s img' % chosen_card_number)[0].attrs.get('src')
+
+        if remaining_chances % 2 == 1 and last_picked_card_value == chosen_card_value:
+            # Inform user if the 2 randomly picked cards matched
+            print('Randomly matched with #%s! You gained 1 chocolate!' % chosen_card_number)
+            cards_and_values.pop(last_picked_card_number)
+            last_picked_card_value = None
+            last_picked_card_number = None
+            remaining_chances -= 1
+            continue
+
+        else:
+            print('Picking card #%s...' % chosen_card_number)
+
+            if chosen_card_value in cards_and_values.values():
+                values_to_cards = {
+                    value: key for key, value in cards_and_values.items()
+                }
+                match_card_number = values_to_cards[chosen_card_value]
+                cards_and_values[chosen_card_number] = chosen_card_value
+            else:
+                cards_and_values[chosen_card_number] = chosen_card_value
+                print('No match found.')
+
+        remaining_chances -= 1
+        last_picked_card_value = chosen_card_value
+        last_picked_card_number = chosen_card_number
+
+    print('No chances remaining. Play again tomorrow.')
+    print('Number of chocolates: %s' % get_chocolate_count(browser))
 
 
 if __name__ == "__main__":

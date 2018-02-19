@@ -51,4 +51,5 @@ Get the free items from their website:
 | Event Name        | Start           | End  |
 | ------------- |:-------------:| -----:|
 | [Daily Login Rewards - February](https://www.ragnarokonline.com.ph/news/daily-login-feb2018) | February 15, 2018 | March 16, 2018 (11.59 PM) |
+| [Valentine Card Matching](https://www.ragnarokonline.com.ph/news/valentine-card-matching) | February 14, 2018 | March 14, 2018 (Before the Maintenance) |
 
