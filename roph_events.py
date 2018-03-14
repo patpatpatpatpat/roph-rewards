@@ -422,7 +422,7 @@ def play_valentine_card_matching(cred):
         return card_option.split('=')[-1]
 
     print('Getting rewards from: Valentine Card Matching')
-    end_date = datetime(2018, 3, 14, 9, 59)
+    end_date = datetime(2018, 3, 21, 9, 59)
 
     if not datetime.today() <= end_date:
         print('Sorry, the event already expired.')
