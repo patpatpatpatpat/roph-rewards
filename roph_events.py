@@ -262,7 +262,6 @@ def claim_rewards(code=None):
         print('------------------------------------------------')
         print('User: %s' % cred['USERNAME'])
         claim_daily_login_rewards(cred)
-        play_valentine_card_matching(cred)
 
         if code:
             redeem_items_from_code(cred, code)
