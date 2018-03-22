@@ -262,6 +262,7 @@ def claim_rewards(code=None):
         print('------------------------------------------------')
         print('User: %s' % cred['USERNAME'])
         claim_daily_login_rewards(cred)
+        play_bingo(cred)
 
         if code:
             redeem_items_from_code(cred, code)
@@ -531,6 +532,67 @@ def play_valentine_card_matching(cred):
 
     print('No chances remaining. Play again tomorrow.')
     print('Number of chocolates: %s' % get_chocolate_count(browser))
+
+
+def play_bingo(cred):
+    """
+    News link: https://www.ragnarokonline.com.ph/news/bingo-mar2018
+    """
+    login_url = 'https://acts.ragnarokonline.com.ph/login?return_url=/ragnarok-philippines/roph-bingo-mar-2018/login'
+    choose_url = 'https://acts.ragnarokonline.com.ph/ragnarok-philippines/roph-bingo-mar-2018/choose'
+    total_points_selector = '.logBar-point span'
+    roll_chances_selector = '.logBar-userstart.text-right'
+    rolled_num_selector = '.modalboxnum-item'
+    cannot_play_game_error = 'unable to join this event'
+    end_date = datetime(2018, 4, 18, 9, 59)
+
+    if not datetime.today() <= end_date:
+        print('This event has expired.')
+        return
+
+    browser = ROPH(cred['USERNAME'], cred['PASSWORD'], login_url)
+
+    print('Getting rewards from: Bingo')
+    if cannot_play_game_error in browser.response.text:
+        print('Your ID does not contain a 50 level character.')
+        return
+
+    choose_board_form = browser.get_form()
+
+    if choose_board_form.action == choose_url:
+        print('Randomly choosing a board...')
+        selected_board = str(choice(range(1, 5)))
+        choose_board_form.fields['board'].value = selected_board
+        browser.submit_form(choose_board_form)
+
+    points_before_playing = browser.select(total_points_selector)[0].text.strip()
+    roll_chances = browser.select(roll_chances_selector)[0].text.strip()
+
+    print('Current points: %s' % points_before_playing)
+    print('Roll chances remaining: %s' % roll_chances)
+
+    while True:
+        browser.submit_form(browser.get_form())
+
+        try:
+            browser.select(rolled_num_selector)[0].text.strip()
+            # Print statement here to show if the rolling was successful.
+            # Since sometimes rolling won't produce a number for some weird reason.
+            print('Rolling...')
+        except Exception as e:
+            pass
+
+        roll_chances = browser.select(roll_chances_selector)[0].text.strip()
+
+        if roll_chances == '0/10':
+            print('No more chances. Share event via FB or try again tomorrow.')
+            break
+
+    points_after_playing = browser.select(total_points_selector)[0].text.strip()
+    points_earned = int(points_after_playing) - int(points_before_playing)
+
+    print('You earned %s points!' % points_earned)
+    print('Total points: %s' % points_after_playing)
 
 
 if __name__ == "__main__":
