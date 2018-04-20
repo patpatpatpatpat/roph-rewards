@@ -37,12 +37,13 @@ Get the free items from their website:
 ## Supported Events
 | Event Name        | Start           | End  | Sample Run |
 | ------------- |:-------------:| -----:| -----:|
-| [March Bingo Lucky Get Free Item](https://ragnarokonline.com.ph/news/bingo-mar2018) | March 21, 2018 | April 18, 2018 (9.59 AM) | [Play Bingo](https://github.com/patpatpatpatpat/roph-rewards/blob/master/sample_runs/play_bingo_sample.gif)
-| [Daily Login Rewards - March](https://www.ragnarokonline.com.ph/news/daily-login-march2018) | March 17, 2018 | April 17, 2018 (12.59 PM) | -
+| [Daily Login Rewards - April](https://www.ragnarokonline.com.ph/news/daily-login-apr2018) | March 17, 2018 | May 17, 2018 (12.59 PM) | -
 
 ## Past Events
-| Event Name        | Start           | End  |
-| ------------- |:-------------:| -----:|
+| Event Name        | Start           | End  | Sample Run |
+| ------------- |:-------------:| -----:| ---:|
+| [March Bingo Lucky Get Free Item](https://ragnarokonline.com.ph/news/bingo-mar2018) | March 21, 2018 | April 18, 2018 (9.59 AM) | [Play Bingo](https://github.com/patpatpatpatpat/roph-rewards/blob/master/sample_runs/play_bingo_sample.gif)
+| [Daily Login Rewards - March](https://www.ragnarokonline.com.ph/news/daily-login-march2018) | March 17, 2018 | April 17, 2018 (12.59 PM) | -
 | [Valentine Card Matching](https://www.ragnarokonline.com.ph/news/valentine-card-matching) | February 14, 2018 | March 21, 2018 (09.59 AM) |
 | [Daily Login Rewards - February](https://www.ragnarokonline.com.ph/news/daily-login-feb2018) | February 15, 2018 | March 16, 2018 (11.59 PM) |
 | [Midgard Adventure](https://www.ragnarokonline.com.ph/news/midgard-adventure) | January 16, 2018 | February 14, 2018 (Before the Maintenance) |

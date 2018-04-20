@@ -38,8 +38,8 @@ class ROPH(robobrowser.RoboBrowser):
 def claim_daily_login_rewards(cred):
     daily_login_events = [
         {'url': 'https://activities.ragnarokonline.com.ph/daily-login',
-         'name': 'Daily Login March 2018',
-         'end_date': datetime(2018, 4, 17, 12, 59)},
+         'name': 'Daily Login April 2018',
+         'end_date': datetime(2018, 5, 17, 12, 59)},
     ]
 
     for login_event in daily_login_events:
@@ -262,7 +262,6 @@ def claim_rewards(code=None):
         print('------------------------------------------------')
         print('User: %s' % cred['USERNAME'])
         claim_daily_login_rewards(cred)
-        play_bingo(cred)
 
         if code:
             redeem_items_from_code(cred, code)
