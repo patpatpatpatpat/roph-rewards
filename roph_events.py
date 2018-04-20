@@ -623,13 +623,11 @@ def play_dungeon_encounter(cred):
 
         if browser.url.endswith(attacked_by_monster_indicator):
             print('Attacked by monster. Attempting to play again...')
-            browser.open(play_new_game_url)
         elif treasure_claimed_indicator in browser.response.text:
             item_name_start = browser.response.text.find('item-name">')
             item_name_end = browser.response.text.find('\'', item_name_start)
             cleaned_item_name = browser.response.text[item_name_start:item_name_end].strip('item-name">').strip()
             print('Treasure awarded: %s' % cleaned_item_name)
-            browser.open(play_new_game_url)
 
         try:
             chances_remaining = browser.select(chances_remaining_selector)[0].text[6:].strip()
