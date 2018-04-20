@@ -37,7 +37,8 @@ Get the free items from their website:
 ## Supported Events
 | Event Name        | Start           | End  | Sample Run |
 | ------------- |:-------------:| -----:| -----:|
-| [Daily Login Rewards - April](https://www.ragnarokonline.com.ph/news/daily-login-apr2018) | March 17, 2018 | May 17, 2018 (12.59 PM) | -
+| [Daily Login Rewards - April](https://www.ragnarokonline.com.ph/news/daily-login-apr2018) | April 17, 2018 | May 17, 2018 (12.59 PM) | -
+| [Dungeon Encounter](https://www.ragnarokonline.com.ph/news/dungeon-encounter) | April 18, 2018 | May 16, 2018 (9.59 AM) | -
 
 ## Past Events
 | Event Name        | Start           | End  | Sample Run |

@@ -262,6 +262,7 @@ def claim_rewards(code=None):
         print('------------------------------------------------')
         print('User: %s' % cred['USERNAME'])
         claim_daily_login_rewards(cred)
+        play_dungeon_encounter(cred)
 
         if code:
             redeem_items_from_code(cred, code)
@@ -592,6 +593,51 @@ def play_bingo(cred):
 
     print('You earned %s points!' % points_earned)
     print('Total points: %s' % points_after_playing)
+
+
+def play_dungeon_encounter(cred):
+    """
+    News link: https://www.ragnarokonline.com.ph/news/dungeon-encounter
+    """
+    login_url = 'https://acts.ragnarokonline.com.ph/treasure-hunters/ragnarok-philippines/dungeon-encounter-apr-2018/login'
+    play_new_game_url = 'https://acts.ragnarokonline.com.ph/treasure-hunters/ragnarok-philippines/dungeon-encounter-apr-2018/main'
+    attacked_by_monster_indicator = '/fail'
+    chances_remaining_selector = '.time-box h1'
+    treasure_claimed_indicator = 'You get item from Bonus Box'
+    end_date = datetime(2018, 5, 16, 9, 59)
+
+    browser = ROPH(cred['USERNAME'], cred['PASSWORD'], login_url)
+
+    print('Getting rewards from: Dungeon Encounter')
+
+    if not datetime.today() <= end_date:
+        print('This event has expired.')
+
+    chances_remaining = browser.select(chances_remaining_selector)[0].text[6:].strip()
+
+    print('Chances remaining: %s' % chances_remaining)
+    while chances_remaining != '0/3':
+        print('Traveling dungeons...')
+        form = browser.get_form()
+        browser.submit_form(form)
+
+        if browser.url.endswith(attacked_by_monster_indicator):
+            print('Attacked by monster. Attempting to play again...')
+            browser.open(play_new_game_url)
+        elif treasure_claimed_indicator in browser.response.text:
+            item_name_start = browser.response.text.find('item-name">')
+            item_name_end = browser.response.text.find('\'', item_name_start)
+            cleaned_item_name = browser.response.text[item_name_start:item_name_end].strip('item-name">').strip()
+            print('Treasure awarded: %s' % cleaned_item_name)
+            browser.open(play_new_game_url)
+
+        try:
+            chances_remaining = browser.select(chances_remaining_selector)[0].text[6:].strip()
+        except:
+            pass
+        browser.open(play_new_game_url)
+
+    print('No more chances. Play again tomorrow.')
 
 
 if __name__ == "__main__":
