@@ -38,6 +38,6 @@ Get the free items from their website:
 | Event Name        | Start           | End  | Sample Run |
 | ------------- |:-------------:| -----:| -----:|
 | [Daily Login Rewards - April](https://www.ragnarokonline.com.ph/news/daily-login-apr2018) | April 17, 2018 | May 17, 2018 (12.59 PM) | -
-| [Dungeon Encounter](https://www.ragnarokonline.com.ph/news/dungeon-encounter) | April 18, 2018 | May 16, 2018 (9.59 AM) | -
+| [Dungeon Encounter](https://www.ragnarokonline.com.ph/news/dungeon-encounter) | April 18, 2018 | May 16, 2018 (9.59 AM) | [Dungeon Encounter](https://github.com/patpatpatpatpat/roph-rewards/blob/master/sample_runs/dungeon_encounter_sample.gif)
 
 * [ROPH Past Events](https://github.com/patpatpatpatpat/roph-rewards/blob/master/past_events.md)
