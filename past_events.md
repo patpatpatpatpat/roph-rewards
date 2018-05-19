@@ -1,6 +1,8 @@
 ## ROPH Past Events
 | Event Name        | Start           | End  | Sample Run |
 | ------------- |:-------------:| -----:| ---:|
+| [Daily Login Rewards - April](https://www.ragnarokonline.com.ph/news/daily-login-apr2018) | April 17, 2018 | May 17, 2018 (12.59 PM) | -
+| [Dungeon Encounter](https://www.ragnarokonline.com.ph/news/dungeon-encounter) | April 18, 2018 | May 16, 2018 (9.59 AM) | [Dungeon Encounter](https://github.com/patpatpatpatpat/roph-rewards/blob/master/sample_runs/dungeon_encounter_sample.gif)
 | [March Bingo Lucky Get Free Item](https://ragnarokonline.com.ph/news/bingo-mar2018) | March 21, 2018 | April 18, 2018 (9.59 AM) | [Play Bingo](https://github.com/patpatpatpatpat/roph-rewards/blob/master/sample_runs/play_bingo_sample.gif)
 | [Daily Login Rewards - March](https://www.ragnarokonline.com.ph/news/daily-login-march2018) | March 17, 2018 | April 17, 2018 (12.59 PM) | -
 | [Valentine Card Matching](https://www.ragnarokonline.com.ph/news/valentine-card-matching) | February 14, 2018 | March 21, 2018 (09.59 AM) |
