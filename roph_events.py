@@ -37,20 +37,15 @@ class ROPH(robobrowser.RoboBrowser):
 
 def claim_daily_login_rewards(cred):
     daily_login_events = [
-        {'url': 'https://activities.ragnarokonline.com.ph/daily-login',
-         'name': 'Daily Login May 2018',
-         'end_date': datetime(2018, 6, 18, 23, 59)},
+        {
+            'url': 'https://activities.ragnarokonline.com.ph/daily-login',
+            'name': 'Daily Login',
+        },
     ]
 
     for login_event in daily_login_events:
         print('Getting rewards from: %s' % login_event['name'])
-
-        if datetime.today() <= login_event['end_date']:
-            roph = ROPH(cred['USERNAME'], cred['PASSWORD'], login_event['url'])
-        else:
-            print('Sorry, the event already expired.')
-            continue
-
+        roph = ROPH(cred['USERNAME'], cred['PASSWORD'], login_event['url'])
         all_page_links = roph.get_links()
 
         for link in all_page_links:
