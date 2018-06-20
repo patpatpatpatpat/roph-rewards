@@ -42,11 +42,16 @@ def claim_daily_login_rewards(cred):
             'name': 'Daily Login',
         },
     ]
+    NO_CLIENT_LOGIN_TODAY_ERROR = 'You have not logged in today, please login to the game first.'
 
     for login_event in daily_login_events:
         print('Getting rewards from: %s' % login_event['name'])
         roph = ROPH(cred['USERNAME'], cred['PASSWORD'], login_event['url'])
         all_page_links = roph.get_links()
+
+        if NO_CLIENT_LOGIN_TODAY_ERROR in roph.response.text:
+            print(NO_CLIENT_LOGIN_TODAY_ERROR)
+            continue
 
         for link in all_page_links:
             href = link.attrs.get('href', '')
