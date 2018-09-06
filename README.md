@@ -37,6 +37,6 @@ Get the free items from their website:
 ## ROPH Supported Events
 | Event Name        | Start           | End  | Sample Run |
 | ------------- |:-------------:| -----:| -----:|
-| [Daily Login Rewards - May](https://www.ragnarokonline.com.ph/news/daily-login-may2018) | May 18, 2018 | June 18, 2018 (11.59 PM) | -
+| Daily Login Rewards - 2018 | - | - | -
 
 * [ROPH Past Events](https://github.com/patpatpatpatpat/roph-rewards/blob/master/past_events.md)
