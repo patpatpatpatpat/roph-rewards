@@ -1,3 +1,6 @@
+# As of Oct 2018: THIS PROJECT IS NO LONGER MAINTAINED (because I don't play Ragnarok anymore). Rok on!
+
+
 # roph-rewards
 Scripts for claiming free items from [Ragnarok Online Philippines](https://www.ragnarokonline.com.ph/news) website events.
 Get the free items from their website:
