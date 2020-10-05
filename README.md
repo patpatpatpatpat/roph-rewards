@@ -1,4 +1,5 @@
-# As of Apr 2020: Interested in an updated version with full support? Talk to me @ dotapat@gmail.com
+# As of Oct 2020: I am no longer supporting this project, ever.
+# As of Apr 2020: Interested in an updated version with full support? Talk to me @ [redacted]
 # As of Oct 2018: THIS PROJECT IS NO LONGER MAINTAINED (because I don't play Ragnarok anymore). Rok on!
 
 
